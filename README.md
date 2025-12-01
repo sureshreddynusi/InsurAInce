@@ -40,3 +40,6 @@ Security & Production
 - For production, consider locking model access on the Ollama side or deploying a secured Ollama instance.
 - Consider using a managed vector DB (Chroma, Pinecone, Milvus) for scaling.
 
+
+<img width="1912" height="961" alt="image" src="https://github.com/user-attachments/assets/79414fd2-19d3-4ea1-9b8f-ad108190a7c4" />
+
