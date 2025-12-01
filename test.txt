@@ -1,0 +1,42 @@
+Sub Button1_Click()
+    Call RefreshAllPivots
+    Call UpdateDateSlicer
+    MsgBox "Dashboard refreshed. Latest date selected in slicer!", vbInformation
+End Sub
+
+Sub RefreshAllPivots()
+    Dim ws As Worksheet
+    Dim pt As PivotTable
+
+    For Each ws In ThisWorkbook.Worksheets
+        For Each pt In ws.PivotTables
+            pt.RefreshTable
+        Next pt
+    Next ws
+End Sub
+
+Sub UpdateDateSlicer()
+    Dim sl As SlicerCache
+    Dim item As SlicerItem
+    Dim latestDate As Date
+    Dim latestItemName As String
+
+    ' Replace "Slicer_Date" with your actual slicer cache name
+    Set sl = ThisWorkbook.SlicerCaches("Slicer_Date")
+
+    ' Find the latest date and its slicer item name
+    For Each item In sl.SlicerItems
+        If IsDate(item.Name) Then
+            If CDate(item.Name) > latestDate Then
+                latestDate = CDate(item.Name)
+                latestItemName = item.Name
+            End If
+        End If
+    Next item
+
+    ' Clear all filters and select only the latest date
+    sl.ClearManualFilter
+    For Each item In sl.SlicerItems
+        item.Selected = (item.Name = latestItemName)
+    Next item
+End Sub
